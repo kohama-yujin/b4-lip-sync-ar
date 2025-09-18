@@ -21,3 +21,9 @@
 /render_face_model
 /prior_research
 /test
+
+# Python キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
