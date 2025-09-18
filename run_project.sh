@@ -1,9 +1,7 @@
 #!/bin/bash
 
-blender=$HOME/usr/bin/blender
 create=$HOME/B4-graduation-project/create_face_model
 frame=$HOME/B4-graduation-project/frame-interpolation
-render=$HOME/B4-graduation-project/render_face_model
 times=2
 
 frames=$((2**times-1))

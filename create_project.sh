@@ -1,15 +1,15 @@
 #!/bin/bash
 
-blender=$HOME/usr/bin/blender
 MOUTH_ARRAY=('a' 'i' 'u' 'e' 'o' 'n')
 create=$HOME/B4-graduation-project/create_face_model
 frame=$HOME/B4-graduation-project/frame-interpolation
-render=$HOME/B4-graduation-project/render_face_model
 times=2
 
 frames=$((2**times-1))
 roop1=0
 roop2=0
+
+export CUDA_VISIBLE_DEVICES=""
 
 cd $create
 player=$(python3 input_player_name.py)
@@ -35,11 +35,6 @@ do
             --use_cut \
             --player_name $player \
             --pattern "$create/mqodata/model/$player"
-
-            #cd $render
-            #mouth="$mouth_before-$mouth_after"
-            #echo "render $mouth."
-            #blender -b -P main.py -- -m $mouth -c -n $player -f $frames
         fi
         let roop2=$roop2+1
     done
