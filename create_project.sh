@@ -9,8 +9,6 @@ frames=$((2**times-1))
 roop1=0
 roop2=0
 
-export CUDA_VISIBLE_DEVICES=""
-
 cd $create
 player=$(python3 input_player_name.py)
 echo "your name is \"$player\"."
