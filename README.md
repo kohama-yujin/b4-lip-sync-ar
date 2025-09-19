@@ -19,7 +19,7 @@ source b4lip/bin/activate
 ### 1.3 ライブラリのインストール
 ```bash
 sudo apt update
-sudo apt install -y libgtk3-dev pkg-config
+sudo apt install -y libgtk-3-dev pkg-config
 pip install uv
 uv pip install -r requirements.txt
 ```
