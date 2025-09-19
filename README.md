@@ -46,8 +46,10 @@ b4-lip-sync-ar/
 ```bash
 ./create_project.sh
 ```
-
-ウィンドウの指示に従う
+- 名前入力
+`create_face_model/mqodata/model/`にモデルを格納するフォルダが作成される
+- 撮影  
+ウィンドウの指示に従う。モデルの作成には8分ほどかかる。
 
 ### 2.2 AR実行 
 ```bash
