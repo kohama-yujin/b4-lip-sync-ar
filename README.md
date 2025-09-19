@@ -3,7 +3,7 @@
 ## 1. 環境構築
 ### 1.1 プロジェクトのダウンロード
 ```bash
-git clone https://github.com/kohama-yujin/b4-lip-sync-ar
+git clone https://github.com/kohama-yujin/b4-lip-sync-ar.git
 ```
 
 ### 1.2 仮想環境の作成
