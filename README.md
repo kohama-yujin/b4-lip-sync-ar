@@ -20,8 +20,7 @@ source b4lip/bin/activate
 ```bash
 sudo apt update
 sudo apt install -y libgtk-3-dev pkg-config
-pip install uv
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 1.4 フレーム補間の学習済みモデルをダウンロード
