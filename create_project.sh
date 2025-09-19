@@ -1,20 +1,19 @@
 #!/bin/bash
 
 MOUTH_ARRAY=('a' 'i' 'u' 'e' 'o' 'n')
-create=$HOME/B4-graduation-project/create_face_model
-frame=$HOME/B4-graduation-project/frame-interpolation
 times=2
 
 frames=$((2**times-1))
 roop1=0
 roop2=0
 
-cd $create
+cd create_face_model
 player=$(python3 input_player_name.py)
 echo "your name is \"$player\"."
 
-cd $create
 python3 main.py -c -n $player
+
+cd ../frame-interpolation
 
 for mouth_before in ${MOUTH_ARRAY[@]}
 do
@@ -24,7 +23,6 @@ do
             mouth="$mouth_before-$mouth_after"
             echo "create $mouth. Interpolate $frames frames."
             
-            cd $frame
             python3 -m eval.interpolator_cli \
             --model_path pretrained_models/film_net/Style/saved_model \
             --times_to_interpolate $times \

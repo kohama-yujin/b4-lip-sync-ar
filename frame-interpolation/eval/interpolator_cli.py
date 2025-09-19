@@ -82,175 +82,213 @@ import cv2
 import time
 
 # Controls TF_CCP log level.
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
 
 _PATTERN = flags.DEFINE_string(
-    name='pattern',
-    default='../create_face_model/mqodata/model',
-    help='The pattern to determine the directories with the input frames.',
-    required=False)
+    name="pattern",
+    default="../create_face_model/mqodata/model",
+    help="The pattern to determine the directories with the input frames.",
+    required=False,
+)
 _MODEL_PATH = flags.DEFINE_string(
-    name='model_path',
-    default=None,
-    help='The path of the TF2 saved model to use.')
+    name="model_path", default=None, help="The path of the TF2 saved model to use."
+)
 _TIMES_TO_INTERPOLATE = flags.DEFINE_integer(
-    name='times_to_interpolate',
+    name="times_to_interpolate",
     default=3,
-    help='The number of times to run recursive midpoint interpolation. '
-    'The number of output frames will be 2^times_to_interpolate+1.')
+    help="The number of times to run recursive midpoint interpolation. "
+    "The number of output frames will be 2^times_to_interpolate+1.",
+)
 _FPS = flags.DEFINE_integer(
-    name='fps',
+    name="fps",
     default=30,
-    help='Frames per second to play interpolated videos in slow motion.')
+    help="Frames per second to play interpolated videos in slow motion.",
+)
 _ALIGN = flags.DEFINE_integer(
-    name='align',
+    name="align",
     default=64,
-    help='If >1, pad the input size so it is evenly divisible by this value.')
+    help="If >1, pad the input size so it is evenly divisible by this value.",
+)
 _BLOCK_HEIGHT = flags.DEFINE_integer(
-    name='block_height',
+    name="block_height",
     default=1,
-    help='An int >= 1, number of patches along height, '
-    'patch_height = height//block_height, should be evenly divisible.')
+    help="An int >= 1, number of patches along height, "
+    "patch_height = height//block_height, should be evenly divisible.",
+)
 _BLOCK_WIDTH = flags.DEFINE_integer(
-    name='block_width',
+    name="block_width",
     default=1,
-    help='An int >= 1, number of patches along width, '
-    'patch_width = width//block_width, should be evenly divisible.')    
+    help="An int >= 1, number of patches along width, "
+    "patch_width = width//block_width, should be evenly divisible.",
+)
 _OUTPUT_VIDEO = flags.DEFINE_boolean(
-    name='output_video',
+    name="output_video",
     default=False,
-    help='If true, creates a video of the frames in the interpolated_frames/ '
-    'subdirectory')
+    help="If true, creates a video of the frames in the interpolated_frames/ "
+    "subdirectory",
+)
 _MOUTH_SHAPE = flags.DEFINE_string(
-    name='mouth_shape',
-    default=None,
-    help='Mouth shape.')   
+    name="mouth_shape", default=None, help="Mouth shape."
+)
 _OUTPUT_ORIGINAL = flags.DEFINE_boolean(
-    name='output_original',
+    name="output_original",
     default=False,
-    help='If true, creates a original image/ '
-    'subdirectory')
+    help="If true, creates a original image/ " "subdirectory",
+)
 _USE_CUT = flags.DEFINE_boolean(
-    name='use_cut',
-    default=False,
-    help='If true, creates a cut image/ '
-    'subdirectory')
+    name="use_cut", default=False, help="If true, creates a cut image/ " "subdirectory"
+)
 _PLAYER_NAME = flags.DEFINE_string(
-    name='player_name',
-    default=None,
-    help='Player name.')   
+    name="player_name", default=None, help="Player name."
+)
 # Add other extensions, if not either.
-_INPUT_EXT = ['png', 'jpg', 'jpeg']
+_INPUT_EXT = ["png", "jpg", "jpeg"]
 
-#フォルダ指定
-model_dirpath = os.getenv('HOME')+'/B4-graduation-project/create_face_model/mqodata/model'
+# フォルダ指定
+model_dirpath = "../create_face_model/mqodata/model"
+
 
 def _output_frames(frames: List[np.ndarray], frames_dir: str, input_frames):
-  """Writes PNG-images to a directory.
+    """Writes PNG-images to a directory.
 
-  If frames_dir doesn't exist, it is created. If frames_dir contains existing
-  PNG-files, they are removed before saving the new ones.
+    If frames_dir doesn't exist, it is created. If frames_dir contains existing
+    PNG-files, they are removed before saving the new ones.
 
-  Args:
-    frames: List of images to save.
-    frames_dir: The output directory to save the images.
+    Args:
+      frames: List of images to save.
+      frames_dir: The output directory to save the images.
 
-  """
-  mouth_shape = _MOUTH_SHAPE.value
-  today = str(datetime.date.today()).replace('-','')
-  interp_frame_num = 2**_TIMES_TO_INTERPOLATE.value-1
+    """
+    mouth_shape = _MOUTH_SHAPE.value
+    today = str(datetime.date.today()).replace("-", "")
+    interp_frame_num = 2**_TIMES_TO_INTERPOLATE.value - 1
 
-  if tf.io.gfile.isdir(frames_dir):
-    old_frames = tf.io.gfile.glob(f'{frames_dir}/frame_*.png')
-    if old_frames:
-      logging.info('Removing existing frames from %s.', frames_dir)
-      for old_frame in old_frames:
-        tf.io.gfile.remove(old_frame)
+    if tf.io.gfile.isdir(frames_dir):
+        old_frames = tf.io.gfile.glob(f"{frames_dir}/frame_*.png")
+        if old_frames:
+            logging.info("Removing existing frames from %s.", frames_dir)
+            for old_frame in old_frames:
+                tf.io.gfile.remove(old_frame)
 
-  for idx, frame in tqdm(
-    enumerate(frames), total=len(frames), ncols=100, colour='green'):
-    if (idx != 0 and idx != interp_frame_num+1) or _OUTPUT_ORIGINAL.value:
-      if _USE_CUT.value:
-        util.write_image(f'{model_dirpath}/{_PLAYER_NAME.value}/{mouth_shape}/cut_{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png', frame)
-      else:
-        util.write_image(f'{model_dirpath}/{_PLAYER_NAME.value}/{mouth_shape}/{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png', frame)
+    for idx, frame in tqdm(
+        enumerate(frames), total=len(frames), ncols=100, colour="green"
+    ):
+        if (idx != 0 and idx != interp_frame_num + 1) or _OUTPUT_ORIGINAL.value:
+            if _USE_CUT.value:
+                util.write_image(
+                    f"{model_dirpath}/{_PLAYER_NAME.value}/{mouth_shape}/cut_{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png",
+                    frame,
+                )
+            else:
+                util.write_image(
+                    f"{model_dirpath}/{_PLAYER_NAME.value}/{mouth_shape}/{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png",
+                    frame,
+                )
 
-  logging.info('Output frames saved in %s.', frames_dir)
+    logging.info("Output frames saved in %s.", frames_dir)
+
 
 class ProcessDirectory(beam.DoFn):
-  """DoFn for running the interpolator on a single directory at the time."""
+    """DoFn for running the interpolator on a single directory at the time."""
 
-  def setup(self):
-    self.interpolator = interpolator_lib.Interpolator(
-        _MODEL_PATH.value, _ALIGN.value,
-        [_BLOCK_HEIGHT.value, _BLOCK_WIDTH.value])
+    def setup(self):
+        self.interpolator = interpolator_lib.Interpolator(
+            _MODEL_PATH.value, _ALIGN.value, [_BLOCK_HEIGHT.value, _BLOCK_WIDTH.value]
+        )
 
-    if _OUTPUT_VIDEO.value:
-      ffmpeg_path = util.get_ffmpeg_path()
-      media.set_ffmpeg(ffmpeg_path)
+        if _OUTPUT_VIDEO.value:
+            ffmpeg_path = util.get_ffmpeg_path()
+            media.set_ffmpeg(ffmpeg_path)
 
-  def process(self, directory: str):
-    # 口形状解析
-    mouth = _MOUTH_SHAPE.value
-    if mouth == None:
-        mouth_shape = "free"
-    else:
-        mouth_shape = mouth
-        if len(mouth)==3:
-            mouth_before, mouth_after = mouth.split('-')
-    """
+    def process(self, directory: str):
+        # 口形状解析
+        mouth = _MOUTH_SHAPE.value
+        if mouth == None:
+            mouth_shape = "free"
+        else:
+            mouth_shape = mouth
+            if len(mouth) == 3:
+                mouth_before, mouth_after = mouth.split("-")
+        """
     input_frames_list = [
         natsort.natsorted(tf.io.gfile.glob(f'{directory}/*.{ext}'))
         for ext in _INPUT_EXT
     ]
     input_frames = functools.reduce(lambda x, y: x + y, input_frames_list)
     """
-    input_frames = []
-    for ext in _INPUT_EXT:
-        input_frames.extend(natsort.natsorted(tf.io.gfile.glob(f'{directory}/mouthShape_{mouth_before}*.{ext}')))
-        input_frames.extend(natsort.natsorted(tf.io.gfile.glob(f'{directory}/mouthShape_{mouth_after}*.{ext}')))
+        input_frames = []
+        for ext in _INPUT_EXT:
+            input_frames.extend(
+                natsort.natsorted(
+                    tf.io.gfile.glob(f"{directory}/mouthShape_{mouth_before}*.{ext}")
+                )
+            )
+            input_frames.extend(
+                natsort.natsorted(
+                    tf.io.gfile.glob(f"{directory}/mouthShape_{mouth_after}*.{ext}")
+                )
+            )
 
-    if len(input_frames) != 2:
-        logging.info('Skipping %s because it does not have exactly two frames matching mouthShape_%s[ab].', directory, mouth_shape)
-        return
+        if len(input_frames) != 2:
+            logging.info(
+                "Skipping %s because it does not have exactly two frames matching mouthShape_%s[ab].",
+                directory,
+                mouth_shape,
+            )
+            return
 
-    logging.info('Generating in-between frames for %s.', directory)
-    frames = list(
-        util.interpolate_recursively_from_files(
-            input_frames, _TIMES_TO_INTERPOLATE.value, self.interpolator))
-    mouth_shape = _MOUTH_SHAPE.value
-    today = str(datetime.date.today()).replace('-','')
-    interp_frame_num = 2**_TIMES_TO_INTERPOLATE.value-1
-    for idx, frame in tqdm(
-      enumerate(frames), total=len(frames), ncols=100, colour='green'):
-      if (idx != 0 and idx != interp_frame_num+1) or _OUTPUT_ORIGINAL.value:
-        if _USE_CUT.value:
-          _output_frames(frames, f'{directory}/{mouth_shape}/cut_{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png', input_frames)
-        else:
-          _output_frames(frames, f'{directory}/{mouth_shape}/{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png', input_frames)
-    if _OUTPUT_VIDEO.value:
-      media.write_video(f'{directory}/interpolated.mp4', frames, fps=_FPS.value)
-      logging.info('Output video saved at %s/interpolated.mp4.', directory)
+        logging.info("Generating in-between frames for %s.", directory)
+        frames = list(
+            util.interpolate_recursively_from_files(
+                input_frames, _TIMES_TO_INTERPOLATE.value, self.interpolator
+            )
+        )
+        mouth_shape = _MOUTH_SHAPE.value
+        today = str(datetime.date.today()).replace("-", "")
+        interp_frame_num = 2**_TIMES_TO_INTERPOLATE.value - 1
+        for idx, frame in tqdm(
+            enumerate(frames), total=len(frames), ncols=100, colour="green"
+        ):
+            if (idx != 0 and idx != interp_frame_num + 1) or _OUTPUT_ORIGINAL.value:
+                if _USE_CUT.value:
+                    _output_frames(
+                        frames,
+                        f"{directory}/{mouth_shape}/cut_{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png",
+                        input_frames,
+                    )
+                else:
+                    _output_frames(
+                        frames,
+                        f"{directory}/{mouth_shape}/{today}_{mouth_shape}_{interp_frame_num+1}-{idx:01d}.png",
+                        input_frames,
+                    )
+        if _OUTPUT_VIDEO.value:
+            media.write_video(f"{directory}/interpolated.mp4", frames, fps=_FPS.value)
+            logging.info("Output video saved at %s/interpolated.mp4.", directory)
 
 
 def _run_pipeline() -> None:
-  directories = tf.io.gfile.glob(_PATTERN.value)
-  pipeline = beam.Pipeline('DirectRunner')
-  (pipeline | 'Create directory names' >> beam.Create(directories)  # pylint: disable=expression-not-assigned
-   | 'Process directories' >> beam.ParDo(ProcessDirectory()))
+    directories = tf.io.gfile.glob(_PATTERN.value)
+    pipeline = beam.Pipeline("DirectRunner")
+    (
+        pipeline
+        | "Create directory names"
+        >> beam.Create(directories)  # pylint: disable=expression-not-assigned
+        | "Process directories" >> beam.ParDo(ProcessDirectory())
+    )
 
-  result = pipeline.run()
-  result.wait_until_finish()
+    result = pipeline.run()
+    result.wait_until_finish()
 
 
 def main(argv: Sequence[str]) -> None:
-  if len(argv) > 1:
-    raise app.UsageError('Too many command-line arguments.')
-  start = time.time()
-  _run_pipeline()
-  end = time.time()
-  print('ALL. '+str(end-start)+'sec.\n')
+    if len(argv) > 1:
+        raise app.UsageError("Too many command-line arguments.")
+    start = time.time()
+    _run_pipeline()
+    end = time.time()
+    print("ALL. " + str(end - start) + "sec.\n")
 
 
-if __name__ == '__main__':
-  app.run(main)
+if __name__ == "__main__":
+    app.run(main)
