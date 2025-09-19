@@ -27,16 +27,16 @@ pip install -r requirements.txt
 - Ⅰ. [Google Drive](https://drive.google.com/drive/folders/1s9pbFx_bSbinhx5PChJwZqPsyRIlehmZ)を開き`variables.data-00000-of-00001`をダウンロード
 - Ⅱ. ダウンロードしたファイルを`frame-interpolation/pretrained_models/film_net/Style/saved_model/variables`に配置
 - Ⅲ.以下のようなディレクトリ構造となっていることを確認
-b4-lip-sync-ar/
-└── frame-interpolation/
-　　└── pretrained_models/
-　　　　└── film_net/
-　　　　　　└── Style/
-　　　　　　　　└── saved_model/
-  　　　　　　　　　├── saved_model.pb
-  　　　　　　　　　└── variables/
-  　　　　　　　　　　　├── **variables.data-00000-of-00001** ←ここに配置
-  　　　　　　　　　　　└── variables.index
+b4-lip-sync-ar/  
+└── frame-interpolation/  
+　　└── pretrained_models/  
+　　　　└── film_net/  
+　　　　　　└── Style/  
+　　　　　　　　└── saved_model/  
+  　　　　　　　　　├── saved_model.pb  
+  　　　　　　　　　└── variables/  
+  　　　　　　　　　　　├── **variables.data-00000-of-00001** ←ここに配置  
+  　　　　　　　　　　　└── variables.index  
 
 
 ## 2. 実行
