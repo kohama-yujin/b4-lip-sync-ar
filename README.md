@@ -18,10 +18,14 @@ source b4lip/bin/activate
 
 ### 1.3 ライブラリのインストール
 ```bash
-sudo apt update
-sudo apt install -y libgtk-3-dev pkg-config
 pip install -r requirements.txt
 ```
+> ※場合によっては以下のようにパッケージをインストールする必要があるかも  
+> ```bash
+> sudo apt update
+> sudo apt-get install -y portaudio19-dev python3-dev build-essential
+> sudo apt install -y libgtk-3-dev pkg-config
+> ```
 
 ### 1.4 フレーム補間の学習済みモデルをダウンロード
 1. [Google Drive](https://drive.google.com/drive/folders/1s9pbFx_bSbinhx5PChJwZqPsyRIlehmZ)を開き`variables.data-00000-of-00001`をダウンロード
