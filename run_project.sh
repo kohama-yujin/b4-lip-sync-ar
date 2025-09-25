@@ -1,10 +1,10 @@
 #!/bin/bash
 
-create=$HOME/B4-graduation-project/create_face_model
-frame=$HOME/B4-graduation-project/frame-interpolation
 times=2
-
 frames=$((2**times-1))
+
+create="$(realpath "create_face_model")"
+frame="$(realpath "frame-interpolation")"
 
 cd $create
 player=$(python3 input_player_name.py)
