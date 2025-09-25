@@ -6,8 +6,8 @@ frames=$((2**times-1))
 roop1=0
 roop2=0
 
-create="$(realpath "create_face_model")"
-frame="$(realpath "frame-interpolation")"
+create="$(realpath "../create_face_model")"
+frame="$(realpath "../frame-interpolation")"
 
 cd $create
 player=$(python3 input_player_name.py)
