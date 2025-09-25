@@ -1,5 +1,12 @@
 # 発話口形状の再現AR
 
+## 注意事項
+本プロジェクトは以下の理由により、**純粋な Ubuntu 環境での実行を推奨**します。
+- カメラ入力を直接使用しているため、WSL や他の仮想環境では動作しません。
+- ShellScript を用いた実行手順が含まれており、Ubuntu 固有のコマンドを使用しています。
+
+そのため、Windows や macOS 上の WSL などでは正しく動作しない可能性があります。
+
 ## 1. 環境構築
 ### 1.1 プロジェクトのダウンロード
 ```bash
@@ -12,7 +19,7 @@ cd b4-lip-sync-ar
 python3 -m venv b4lip
 source b4lip/bin/activate
 ```
-(b4lip)が付けば仮想環境有効化成功  
+(b4lip) が付けば仮想環境有効化成功  
 `(b4lip) ---@~~~:/b4-lip-sync-ar$`
 > ※無効化したいときは`deactivate`を実行
 
