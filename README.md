@@ -42,6 +42,9 @@ b4-lip-sync-ar/
 
 
 ## 2. 実行
+```bash
+cd Scripts
+```
 ### 2.1 モデル作成 
 ```bash
 ./create_project.sh
