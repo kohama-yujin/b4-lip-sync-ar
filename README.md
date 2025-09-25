@@ -20,8 +20,7 @@ source b4lip/bin/activate
 ```bash
 sudo apt update
 sudo apt install -y libgtk-3-dev pkg-config
-pip install uv
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 1.4 フレーム補間の学習済みモデルをダウンロード
@@ -56,5 +55,16 @@ b4-lip-sync-ar/
 ```bash
 ./run_project.sh
 ```
+- 名前入力  
+モデル作成時に入力した名前を入力する。
+- アルファ変更  
+モデル作成直後は必ず実行する。作成したモデルの輪郭をなめらかにする。
+- AR実行  
+AR実行ウィンドウが起動する。実行キーは以下のとおりである。
 
-モデル作成直後は
+| キー | 説明 |
+| :--- | :--- |
+| Qキー    | 終了 |
+| Mキー    | 発話再現 |
+| Tキー | テキスト入力 |
+| Vキー | 音声入力 |
