@@ -7,6 +7,10 @@ frames=$((2**times-1))
 roop1=0
 roop2=0
 
+# TARGET="create_face_model"
+# ABS_TARGET="$(realpath "$TARGET")"
+# echo "絶対パス: $ABS_TARGET"
+
 cd create_face_model
 player=$(python3 input_player_name.py)
 echo "your name is \"$player\"."
@@ -30,7 +34,7 @@ do
             --output_original \
             --use_cut \
             --player_name $player \
-            --pattern "$create/mqodata/model/$player"
+            --pattern "../create_face_model/mqodata/model/$player"
         fi
         let roop2=$roop2+1
     done
