@@ -22,6 +22,8 @@
 /prior_research
 /test
 
+作業内容.txt
+
 # Python キャッシュ
 __pycache__/
 *.pyc
