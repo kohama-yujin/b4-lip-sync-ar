@@ -194,11 +194,13 @@ class ContourAlpha:
         else:
             y = self.cross_polynomial(x)
 
-        for j in range(int(y)-5, int(y)+10):
-            img[int(j), x, 3] = 0
-        for n, j in enumerate(range(int(y)+10, int(y+self.scope)+10)):
-            if img[int(j), x, 3] > self.diff_alpha * n:
-                img[int(j), x, 3] = self.diff_alpha * n
+        for j in range(int(y) - 5, int(y) + 10):
+            if 0 <= j < self.h and 0 <= x < self.w:
+                img[int(j), x, 3] = 0
+        for n, j in enumerate(range(int(y) + 10, int(y + self.scope) + 10)):
+            if 0 <= j < self.h and 0 <= x < self.w:
+                if img[int(j), x, 3] > self.diff_alpha * n:
+                    img[int(j), x, 3] = self.diff_alpha * n
 
     # 輪郭と断面のランドマークをプロットする関数
     def plot_contour_cross(self):
