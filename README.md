@@ -34,6 +34,22 @@ sudo apt install mecab libmecab-dev mecab-ipadic-utf8
 sudo apt install ffmpeg
 sudo apt install build-essential zlib1g-dev libsdl2-dev
 sudo apt-get install perl
+# パッケージ情報の更新
+sudo apt update
+# GTK3 開発用ライブラリ（GUIアプリ作成に必要）
+sudo apt install -y libgtk-3-dev pkg-config
+# 音声処理ライブラリや開発ツール
+sudo apt-get install -y portaudio19-dev python3-dev build-essential
+# Python GUI 用ライブラリ Tkinter
+sudo apt-get install python3-tk
+# 日本語形態素解析ライブラリ MeCab
+sudo apt install mecab libmecab-dev mecab-ipadic-utf8
+# 動画・音声処理ライブラリ
+sudo apt install ffmpeg
+# 開発用ライブラリ（圧縮・SDL2 など）
+sudo apt install build-essential zlib1g-dev libsdl2-dev
+# Perl インタプリタ（Julius スクリプト実行に必要）
+sudo apt-get install perl
 ```
 
 ### 1.4 ライブラリのインストール
