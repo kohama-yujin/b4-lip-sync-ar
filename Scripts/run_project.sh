@@ -8,8 +8,8 @@ export MECABRC=$mecabrc_path
 
 julius_path=$(which julius)
 
-create="$(realpath "create_face_model")"
-frame="$(realpath "frame-interpolation")"
+create="$(realpath "../create_face_model")"
+frame="$(realpath "../frame-interpolation")"
 
 cd $create
 player=$(python3 input_player_name.py)
