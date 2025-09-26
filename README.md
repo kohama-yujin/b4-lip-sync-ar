@@ -20,8 +20,8 @@ python3 -m venv b4lip
 # 有効化
 source b4lip/bin/activate
 ```
-> 以下のように(b4lip) が付けば仮想環境有効化成功
-> (b4lip) ---@~~~:/b4-lip-sync-ar$
+> 以下のように(b4lip) が付けば仮想環境有効化成功  
+> (b4lip) ---@~~~:/b4-lip-sync-ar$  
 > ※ 無効化したいときは`deactivate`を実行
 
 ### 1.3 パッケージのインストール  
