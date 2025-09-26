@@ -26,14 +26,6 @@ source b4lip/bin/activate
 
 ### 1.3 パッケージのインストール  
  ```bash
-sudo apt update
-sudo apt install -y libgtk-3-dev pkg-config
-sudo apt-get install -y portaudio19-dev python3-dev build-essential
-sudo apt-get install python3-tk
-sudo apt install mecab libmecab-dev mecab-ipadic-utf8
-sudo apt install ffmpeg
-sudo apt install build-essential zlib1g-dev libsdl2-dev
-sudo apt-get install perl
 # パッケージ情報の更新
 sudo apt update
 # GTK3 開発用ライブラリ（GUIアプリ作成に必要）
