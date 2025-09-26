@@ -15,25 +15,33 @@ git clone https://github.com/kohama-yujin/b4-lip-sync-ar.git
 ### 1.2 仮想環境の作成
 ```bash
 cd b4-lip-sync-ar
+# 作成
 python3 -m venv b4lip
+# 有効化
 source b4lip/bin/activate
 ```
 (b4lip) が付けば仮想環境有効化成功  
 `(b4lip) ---@~~~:/b4-lip-sync-ar$`
 > ※無効化したいときは`deactivate`を実行
 
-### 1.3 ライブラリのインストール
+### 1.3 パッケージのインストール  
+ ```bash
+sudo apt update
+sudo apt install -y libgtk-3-dev pkg-config
+sudo apt-get install -y portaudio19-dev python3-dev build-essential
+sudo apt-get install python3-tk
+sudo apt install mecab libmecab-dev mecab-ipadic-utf8
+sudo apt install ffmpeg
+sudo apt install build-essential zlib1g-dev libsdl2-dev
+sudo apt-get install perl
+```
+
+### 1.4 ライブラリのインストール
 ```bash
 pip install -r requirements.txt
 ```
-> ※場合によっては以下のようにパッケージをインストールする必要があるかも  
-> ```bash
-> sudo apt update
-> sudo apt-get install -y portaudio19-dev python3-dev build-essential
-> sudo apt install -y libgtk-3-dev pkg-config
-> ```
 
-### 1.4 フレーム補間の学習済みモデルをダウンロード
+### 1.5 フレーム補間の学習済みモデルをダウンロード
 1. [Google Drive](https://drive.google.com/drive/folders/1s9pbFx_bSbinhx5PChJwZqPsyRIlehmZ)を開き`variables.data-00000-of-00001`をダウンロード
 1. ダウンロードしたファイルを`frame-interpolation/pretrained_models/film_net/Style/saved_model/variables`に配置
 1. 以下のようなディレクトリ構造となっていることを確認
@@ -50,9 +58,24 @@ b4-lip-sync-ar/
 　　　　　　　　　　　　　　　├── **variables.data-00000-of-00001** ←ここに配置  
 　　　　　　　　　　　　　　　└── variables.index  
 
+### 1.6 音声認識エンジンをダウンロード
+```bash
+# 任意の作業フォルダに移動
+cd /Downloads
+git clone https://github.com/julius-speech/julius.git
+cd julius
+# 2. 設定
+./configure
+# 3. コンパイル
+make
+# 4. システムへのインストール
+sudo make install
+```
 
 ## 2. 実行
 ```bash
+# 仮想環境有効化
+source b4lip/bin/activate
 cd Scripts
 ```
 ### 2.1 3Dモデル作成 
