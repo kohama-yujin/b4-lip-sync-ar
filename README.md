@@ -20,9 +20,9 @@ python3 -m venv b4lip
 # 有効化
 source b4lip/bin/activate
 ```
-(b4lip) が付けば仮想環境有効化成功  
-`(b4lip) ---@~~~:/b4-lip-sync-ar$`
-> ※無効化したいときは`deactivate`を実行
+> 以下のように(b4lip) が付けば仮想環境有効化成功
+> (b4lip) ---@~~~:/b4-lip-sync-ar$
+> ※ 無効化したいときは`deactivate`を実行
 
 ### 1.3 パッケージのインストール  
  ```bash
@@ -33,15 +33,15 @@ sudo apt install -y libgtk-3-dev pkg-config
 # 音声処理ライブラリや開発ツール
 sudo apt-get install -y portaudio19-dev python3-dev build-essential
 # Python GUI 用ライブラリ Tkinter
-sudo apt-get install python3-tk
+sudo apt-get install -y python3-tk
 # 日本語形態素解析ライブラリ MeCab
-sudo apt install mecab libmecab-dev mecab-ipadic-utf8
+sudo apt install -y mecab libmecab-dev mecab-ipadic-utf8
 # 動画・音声処理ライブラリ
-sudo apt install ffmpeg
+sudo apt install -y ffmpeg
 # 開発用ライブラリ（圧縮・SDL2 など）
-sudo apt install build-essential zlib1g-dev libsdl2-dev
+sudo apt install -y build-essential zlib1g-dev libsdl2-dev
 # Perl インタプリタ（Julius スクリプト実行に必要）
-sudo apt-get install perl
+sudo apt-get install -y perl
 ```
 
 ### 1.4 ライブラリのインストール
@@ -69,7 +69,7 @@ b4-lip-sync-ar/
 ### 1.6 音声認識エンジンをダウンロード
 ```bash
 # 任意の作業フォルダに移動
-cd /Downloads
+cd ~/Downloads
 git clone https://github.com/julius-speech/julius.git
 cd julius
 # 2. 設定
@@ -82,6 +82,7 @@ sudo make install
 
 ## 2. 実行
 ```bash
+cd b4-lip-sync-ar
 # 仮想環境有効化
 source b4lip/bin/activate
 cd Scripts
