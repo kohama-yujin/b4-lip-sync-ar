@@ -43,6 +43,12 @@ if (defined $ARGV[0]) {
     $datadir = $ARGV[0];
 }
 
+if (defined $ARGV[1]) {
+    $julius_path = $ARGV[1];
+} else {
+    $julius_path = "/usr/bin/julius";  # デフォルトパス
+}
+
 ## set to 1 to disable inserting silence at begin/end of sentence
 $disable_silence_at_ends=0;
 
@@ -56,7 +62,7 @@ $debug_flag=0;
 if ($^O =~ /MSWin/){
     $juliusbin=".\\bin\\julius-4.3.1.exe";
 } else {
-    $juliusbin="/usr/bin/julius";
+    $juliusbin=$julius_path;
 }
 
 ## acoustic model
